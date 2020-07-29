@@ -1141,6 +1141,11 @@ amf_ue_t *amf_ue_add(ran_ue_t *ran_ue)
     return amf_ue;
 }
 
+amf_ue_t *amf_ue_cycle(amf_ue_t *amf_ue)
+{
+    return ogs_pool_cycle(&amf_ue_pool, amf_ue);
+}
+
 void amf_ue_remove(amf_ue_t *amf_ue)
 {
     int i;
@@ -1482,6 +1487,11 @@ amf_sess_t *amf_sess_add(amf_ue_t *amf_ue, uint8_t psi)
     ogs_list_add(&amf_ue->sess_list, sess);
 
     return sess;
+}
+
+amf_sess_t *amf_sess_cycle(amf_sess_t *sess)
+{
+    return ogs_pool_cycle(&amf_sess_pool, sess);
 }
 
 void amf_sess_remove(amf_sess_t *sess)
