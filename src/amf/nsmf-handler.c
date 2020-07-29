@@ -391,10 +391,6 @@ int amf_nsmf_pdu_session_handle_release_sm_context(amf_sess_t *sess)
                     NGAP_Cause_PR_nas, NGAP_CauseNas_normal_release,
                     NGAP_UE_CTX_REL_NG_CONTEXT_REMOVE, 0);
 
-        } else if (OGS_FSM_CHECK(&amf_ue->sm, gmm_state_registered)) {
-
-            nas_5gs_send_accept(amf_ue);
-
         } else if (OGS_FSM_CHECK(&amf_ue->sm, gmm_state_exception)) {
 
             /*
@@ -407,13 +403,17 @@ int amf_nsmf_pdu_session_handle_release_sm_context(amf_sess_t *sess)
                     NGAP_Cause_PR_nas, NGAP_CauseNas_normal_release,
                     NGAP_UE_CTX_REL_UE_CONTEXT_REMOVE, 0);
 
+        } else if (OGS_FSM_CHECK(&amf_ue->sm, gmm_state_registered)) {
+
+            ogs_error("Release SM Context in registered SATTE");
+
         } else if (OGS_FSM_CHECK(&amf_ue->sm, gmm_state_security_mode)) {
 
-            ogs_error("Releasing SM Context in security-mode STATE");
+            ogs_error("Release SM Context in security-mode STATE");
 
         } else {
 
-            ogs_error("Releasing SM Context : INVALID STATE");
+            ogs_error("Release SM Context : INVALID STATE");
 
         }
     }
