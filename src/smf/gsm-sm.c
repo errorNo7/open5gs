@@ -186,9 +186,7 @@ void smf_gsm_state_operational(ogs_fsm_t *s, smf_event_t *e)
 
         case OGS_NAS_5GS_PDU_SESSION_RELEASE_COMPLETE:
             smf_sbi_send_response(sess, OGS_SBI_HTTP_STATUS_NO_CONTENT);
-            smf_sbi_send_sm_context_status_notify(sess);
-
-            OGS_FSM_TRAN(s, smf_gsm_state_released);
+            ogs_timer_start(sess->t_release_holding, ogs_time_from_msec(1));
             break;
 
         default:
@@ -236,30 +234,6 @@ void smf_gsm_state_operational(ogs_fsm_t *s, smf_event_t *e)
 
     default:
         ogs_error("Unknown event [%s]", smf_event_get_name(e));
-        break;
-    }
-}
-
-void smf_gsm_state_released(ogs_fsm_t *s, smf_event_t *e)
-{
-    smf_sess_t *sess = NULL;
-    ogs_assert(s);
-    ogs_assert(e);
-
-    smf_sm_debug(e);
-
-    sess = e->sess;
-    ogs_assert(sess);
-
-    switch (e->id) {
-    case OGS_FSM_ENTRY_SIG:
-        break;
-
-    case OGS_FSM_EXIT_SIG:
-        break;
-
-    default:
-        ogs_error("Unknown event %s", smf_event_get_name(e));
         break;
     }
 }

@@ -246,6 +246,9 @@ typedef struct smf_sess_s {
     /* SMF session context is activated or not */
     OpenAPI_up_cnx_state_e smfUpCnxState;
 
+    /* Release Holding timer of SMF session context */
+    ogs_timer_t     *t_release_holding;
+
     ogs_list_t      bearer_list;
 
     ogs_gtp_node_t  *gnode;
