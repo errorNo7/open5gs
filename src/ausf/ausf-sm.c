@@ -253,10 +253,6 @@ void ausf_state_operational(ogs_fsm_t *s, ausf_event_t *e)
                 sbi_object = e->sbi.data;
                 ogs_assert(sbi_object);
 
-                ogs_timer_stop(sbi_object->client_wait.timer);
-
-                sbi_object->running = false;
-
                 SWITCH(message.h.method)
                 CASE(OGS_SBI_HTTP_METHOD_GET)
                     if (message.res_status == OGS_SBI_HTTP_STATUS_OK)
@@ -287,7 +283,8 @@ void ausf_state_operational(ogs_fsm_t *s, ausf_event_t *e)
             e->ausf_ue = ausf_ue;
             e->sbi.message = &message;
 
-            ausf_ue->sbi.running = false;
+            ausf_ue->sbi.running_count--;
+            ogs_timer_stop(ausf_ue->sbi.client_wait.timer);
 
             ogs_fsm_dispatch(&ausf_ue->sm, e);
             if (OGS_FSM_CHECK(&ausf_ue->sm, ausf_ue_state_exception)) {
@@ -340,7 +337,7 @@ void ausf_state_operational(ogs_fsm_t *s, ausf_event_t *e)
             session = sbi_object->session;
             ogs_assert(session);
 
-            sbi_object->running = false;
+            sbi_object->running_count--;
 
             ogs_error("Cannot receive SBI message");
             ogs_sbi_server_send_error(session,

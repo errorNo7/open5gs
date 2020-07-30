@@ -979,6 +979,9 @@ void smf_sess_remove(smf_sess_t *sess)
         ogs_freeaddrinfo(sess->upf_n3_addr6);
 
     /* Free SBI object memory */
+    if (sess->sbi.running_count)
+        ogs_error("[%s:%d] SBI running [%d]",
+                smf_ue->supi, sess->psi, sess->sbi.running_count);
     ogs_sbi_object_free(&sess->sbi);
     ogs_timer_delete(sess->sbi.client_wait.timer);
 

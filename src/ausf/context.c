@@ -165,6 +165,9 @@ void ausf_ue_remove(ausf_ue_t *ausf_ue)
     ogs_fsm_delete(&ausf_ue->sm);
 
     /* Free SBI object memory */
+    if (ausf_ue->sbi.running_count)
+        ogs_error("[%s] SBI running [%d]",
+                ausf_ue->supi, ausf_ue->sbi.running_count);
     ogs_sbi_object_free(&ausf_ue->sbi);
     ogs_timer_delete(ausf_ue->sbi.client_wait.timer);
 

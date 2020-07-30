@@ -103,8 +103,6 @@ void smf_gsm_state_operational(ogs_fsm_t *s, smf_event_t *e)
         smf_ue = sess->smf_ue;
         ogs_assert(smf_ue);
 
-        ogs_timer_stop(sess->sbi.client_wait.timer);
-
         SWITCH(sbi_message->h.service.name)
         CASE(OGS_SBI_SERVICE_NAME_NUDM_SDM)
             SWITCH(sbi_message->h.resource.component[1])
