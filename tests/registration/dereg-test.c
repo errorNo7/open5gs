@@ -870,7 +870,6 @@ static void test2_func(abts_case *tc, void *data)
     test_ue_remove(&test_ue);
 }
 
-#if 0
 static void test3_func(abts_case *tc, void *data)
 {
     int rv;
@@ -1056,7 +1055,7 @@ static void test3_func(abts_case *tc, void *data)
     } while (count == 0);
     bson_destroy(doc);
 
-    for (i = 0; i < 1; i++) {
+    for (i = 0; i < 5; i++) {
         /* Send Registration request */
         test_ue.registration_request_param.gmm_capability = 0;
         gmmbuf = testgmm_build_registration_request(&test_ue, NULL);
@@ -1268,7 +1267,6 @@ static void test3_func(abts_case *tc, void *data)
     /* Clear Test UE Context */
     test_ue_remove(&test_ue);
 }
-#endif
 
 abts_suite *test_dereg(abts_suite *suite)
 {
@@ -1276,9 +1274,7 @@ abts_suite *test_dereg(abts_suite *suite)
 
     abts_run_test(suite, test1_func, NULL);
     abts_run_test(suite, test2_func, NULL);
-#if 0
     abts_run_test(suite, test3_func, NULL);
-#endif
 
     return suite;
 }

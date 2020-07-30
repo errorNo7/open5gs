@@ -227,7 +227,8 @@ int amf_namf_callback_handle_sm_context_status(
         goto cleanup;
     }
 
-    if (StatusInfo->resource_status == OpenAPI_resource_status_RELEASED) {
+    sess->resource_status = StatusInfo->resource_status;
+    if (sess->resource_status == OpenAPI_resource_status_RELEASED) {
         ogs_info("[%s:%d] SM context status released", amf_ue->supi, sess->psi);
         amf_nsmf_pdu_session_handle_release_sm_context(sess);
     }

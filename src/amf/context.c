@@ -1545,12 +1545,23 @@ amf_sess_t *amf_sess_find_by_psi(amf_ue_t *amf_ue, uint8_t psi)
     return NULL;
 }
 
-bool amf_sess_sync_done(amf_ue_t *amf_ue)
+bool amf_ue_sync_done(amf_ue_t *amf_ue)
 {
     amf_sess_t *sess = NULL;
 
+    ogs_assert(amf_ue);
+    if (amf_ue->sbi.running_count) return false;
+
     ogs_list_for_each(&amf_ue->sess_list, sess)
         if (sess->sbi.running_count) return false;
+
+    return true;
+}
+
+bool amf_sess_sync_done(amf_sess_t *sess)
+{
+    ogs_assert(sess);
+    if (sess->sbi.running_count) return false;
 
     return true;
 }

@@ -138,7 +138,11 @@ int amf_nsmf_pdu_session_handle_update_sm_context(
         /* UPDATE_UpCnxState - SYNC */
         sess->smfUpCnxState = sess->ueUpCnxState;
 
-        if (recvmsg->SmContextUpdatedData &&
+        if (!SESSION_CONTEXT_IN_SMF(sess)) {
+            if (sess->resource_status == OpenAPI_resource_status_RELEASED)
+                amf_nsmf_pdu_session_handle_release_sm_context(sess);
+
+        } else if (recvmsg->SmContextUpdatedData &&
             recvmsg->SmContextUpdatedData->n2_sm_info) {
 
             SmContextUpdatedData = recvmsg->SmContextUpdatedData;
@@ -367,7 +371,7 @@ int amf_nsmf_pdu_session_handle_release_sm_context(amf_sess_t *sess)
     ogs_assert(amf_ue);
 
     /* Check last session */
-    if (ogs_list_count(&amf_ue->sess_list) == 1) {
+    if (SESSION_SYNC_DONE(amf_ue)) {
 
         if (OGS_FSM_CHECK(&amf_ue->sm, gmm_state_authentication)) {
 
@@ -405,7 +409,7 @@ int amf_nsmf_pdu_session_handle_release_sm_context(amf_sess_t *sess)
 
         } else if (OGS_FSM_CHECK(&amf_ue->sm, gmm_state_registered)) {
 
-            ogs_error("Release SM Context in registered SATTE");
+            ogs_debug("Release SM Context in registered STATE");
 
         } else if (OGS_FSM_CHECK(&amf_ue->sm, gmm_state_security_mode)) {
 
@@ -418,7 +422,8 @@ int amf_nsmf_pdu_session_handle_release_sm_context(amf_sess_t *sess)
         }
     }
 
-    amf_sess_remove(sess);
+    if (amf_sess_sync_done(sess))
+        amf_sess_remove(sess);
 
     return OGS_OK;
 }
