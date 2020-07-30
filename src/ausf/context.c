@@ -225,3 +225,8 @@ ausf_ue_t *ausf_ue_find_by_ctx_id(char *ctx_id)
     ogs_assert(ctx_id);
     return ogs_pool_find(&ausf_ue_pool, atoll(ctx_id));
 }
+
+ausf_ue_t *ausf_ue_cycle(ausf_ue_t *ausf_ue)
+{
+    return ogs_pool_cycle(&ausf_ue_pool, ausf_ue);
+}

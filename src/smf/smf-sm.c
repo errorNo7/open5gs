@@ -513,7 +513,11 @@ void smf_state_operational(ogs_fsm_t *s, smf_event_t *e)
         CASE(OGS_SBI_SERVICE_NAME_NAMF_COMM)
             sess = e->sbi.data;
             ogs_assert(sess);
+            sess = smf_sess_cycle(sess);
+            ogs_assert(sess);
             smf_ue = sess->smf_ue;
+            ogs_assert(smf_ue);
+            smf_ue = smf_ue_cycle(smf_ue);
             ogs_assert(smf_ue);
             ogs_assert(OGS_FSM_STATE(&sess->sm));
 

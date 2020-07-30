@@ -231,3 +231,8 @@ udm_ue_t *udm_ue_find_by_ctx_id(char *ctx_id)
     ogs_assert(ctx_id);
     return ogs_pool_find(&udm_ue_pool, atoll(ctx_id));
 }
+
+udm_ue_t *udm_ue_cycle(udm_ue_t *udm_ue)
+{
+    return ogs_pool_cycle(&udm_ue_pool, udm_ue);
+}

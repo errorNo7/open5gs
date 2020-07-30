@@ -1065,6 +1065,16 @@ smf_sess_t *smf_sess_find_by_ipv6(uint32_t *addr6)
     return (smf_sess_t *)ogs_hash_get(self.ipv6_hash, addr6, OGS_IPV6_LEN);
 }
 
+smf_ue_t *smf_ue_cycle(smf_ue_t *smf_ue)
+{
+    return ogs_pool_cycle(&smf_ue_pool, smf_ue);
+}
+
+smf_sess_t *smf_sess_cycle(smf_sess_t *sess)
+{
+    return ogs_pool_cycle(&smf_sess_pool, sess);
+}
+
 smf_bearer_t *smf_qos_flow_add(smf_sess_t *sess)
 {
     smf_bearer_t *qos_flow = NULL;

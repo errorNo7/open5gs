@@ -387,10 +387,8 @@ void amf_state_operational(ogs_fsm_t *s, amf_event_t *e)
         CASE(OGS_SBI_SERVICE_NAME_NSMF_PDUSESSION)
             sess = e->sbi.data;
             ogs_assert(sess);
-#if 0
             sess = amf_sess_cycle(sess);
             ogs_assert(sess);
-#endif
             amf_ue = sess->amf_ue;
             ogs_assert(amf_ue);
             amf_ue = amf_ue_cycle(amf_ue);

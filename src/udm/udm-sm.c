@@ -307,6 +307,8 @@ void udm_state_operational(ogs_fsm_t *s, udm_event_t *e)
             CASE(OGS_SBI_RESOURCE_NAME_SUBSCRIPTION_DATA)
                 udm_ue = e->sbi.data;
                 ogs_assert(udm_ue);
+                udm_ue = udm_ue_cycle(udm_ue);
+                ogs_assert(udm_ue);
 
                 e->udm_ue = udm_ue;
                 e->sbi.message = &message;

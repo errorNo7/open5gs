@@ -459,7 +459,6 @@ ran_ue_t *ran_ue_first_in_gnb(amf_gnb_t *gnb);
 ran_ue_t *ran_ue_next_in_gnb(ran_ue_t *ran_ue);
 
 amf_ue_t *amf_ue_add(ran_ue_t *ran_ue);
-amf_ue_t *amf_ue_cycle(amf_ue_t *amf_ue);
 void amf_ue_remove(amf_ue_t *amf_ue);
 void amf_ue_remove_all(void);
 
@@ -531,11 +530,13 @@ void source_ue_associate_target_ue(ran_ue_t *source_ue, ran_ue_t *target_ue);
 void source_ue_deassociate_target_ue(ran_ue_t *ran_ue);
 
 amf_sess_t *amf_sess_add(amf_ue_t *amf_ue, uint8_t psi);
-amf_sess_t *amf_sess_cycle(amf_sess_t *sess);
 void amf_sess_remove(amf_sess_t *sess);
 void amf_sess_remove_all(amf_ue_t *amf_ue);
 amf_sess_t *amf_sess_find_by_psi(amf_ue_t *amf_ue, uint8_t psi);
 amf_sess_t *amf_sess_find_by_dnn(amf_ue_t *amf_ue, char *dnn);
+
+amf_ue_t *amf_ue_cycle(amf_ue_t *amf_ue);
+amf_sess_t *amf_sess_cycle(amf_sess_t *sess);
 
 bool amf_ue_sync_done(amf_ue_t *amf_ue);
 bool amf_sess_sync_done(amf_sess_t *sess);

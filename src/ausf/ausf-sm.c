@@ -278,6 +278,8 @@ void ausf_state_operational(ogs_fsm_t *s, ausf_event_t *e)
         CASE(OGS_SBI_SERVICE_NAME_NUDM_UEAU)
             ausf_ue = e->sbi.data;
             ogs_assert(ausf_ue);
+            ausf_ue = ausf_ue_cycle(ausf_ue);
+            ogs_assert(ausf_ue);
             ogs_assert(OGS_FSM_STATE(&ausf_ue->sm));
 
             e->ausf_ue = ausf_ue;
