@@ -1042,6 +1042,8 @@ static void test3_func(abts_case *tc, void *data)
     rv = testgnb_ngap_send(ngap, sendbuf);
     ABTS_INT_EQUAL(tc, OGS_OK, rv);
 
+    ogs_msleep(100);
+
     /* Send De-registration request */
     gmmbuf = testgmm_build_de_registration_request(&test_ue, 1);
     ABTS_PTR_NOTNULL(tc, gmmbuf);

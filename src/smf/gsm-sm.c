@@ -186,6 +186,21 @@ void smf_gsm_state_operational(ogs_fsm_t *s, smf_event_t *e)
 
         case OGS_NAS_5GS_PDU_SESSION_RELEASE_COMPLETE:
             smf_sbi_send_response(sess, OGS_SBI_HTTP_STATUS_NO_CONTENT);
+
+            /*
+             * Race condition for PDU session release complete
+             *  - CLIENT : /nsmf-pdusession/v1/sm-contexts/{smContextRef}/modify
+             *  - SERVER : /namf-callback/v1/{supi}/sm-context-status/{psi})
+             *
+             * smf_sbi_send_response(sess, OGS_SBI_HTTP_STATUS_NO_CONTENT);
+             * smf_sbi_send_sm_context_status_notify(sess);
+             *
+             * When executed as above,
+             * NOTIFY transmits first, and Modify's Response transmits later.
+             *
+             * Use the Release Timer to send Notify
+             * later than Modify's Response.
+             */
             ogs_timer_start(sess->t_release_holding, ogs_time_from_msec(1));
             break;
 
